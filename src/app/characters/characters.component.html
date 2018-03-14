@@ -1,11 +1,11 @@
 <div class="char" *ngFor="let character of characters">
   <div class="char-image">
-      <a [routerLink]="['story']" [queryParams]="{ characterId: character.id }">
+      <a [routerLink]="['/stories']" [queryParams]="{ characterId: character.id }">
         <div class="char-image-border"></div>
         <img class="char-img" src="{{character.thumbnail}}" alt="{{character.name}}" title="{{character.name}}">
       </a>
   </div>
-  <a class="char-text" [routerLink]="['story']" [queryParams]="{ characterId: character.id }">
+  <a class="char-text" [routerLink]="['/stories']" [queryParams]="{ characterId: character.id }">
     {{character.name}}
   </a>
 </div>

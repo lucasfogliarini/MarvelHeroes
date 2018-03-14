@@ -1,0 +1,21 @@
+<div id="story" *ngIf="story">
+  <h1 class="title">{{story.title}}</h1>
+  <p class="description">{{story.description}}</p>
+
+  <div id="appearing-characters">
+    <h4>Appearing Characters</h4>
+    <div class="char" *ngFor="let character of storyCharacters">
+        <div class="char-image">
+            <a [routerLink]="['/stories']" [queryParams]="{ characterId: character.id }">
+               <div class="char-image-border"></div>
+               <img class="char-img" src="{{character.thumbnail}}" alt="{{character.name}}" title="{{character.name}}">
+            </a>
+        </div>
+        <a class="char-text" [routerLink]="['/stories']" [queryParams]="{ characterId: character.id }">
+           {{character.name}}
+        </a>
+    </div>
+  </div>
+
+  <p>{{story.attributionText}}</p>
+</div>

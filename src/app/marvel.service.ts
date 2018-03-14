@@ -12,10 +12,10 @@ export class MarvelService {
 
   constructor(private _http: HttpClient) { }
 
-  getRandomStory(characterId, maxRandom): Observable<IStory> {
-    const offset = this.getRandomInt(maxRandom || 100);
+  getRandomStory(characterId: string, maxRandom: number = 1): Observable<IStory> {
+    const offset = this.getRandomInt(maxRandom);
     const self = this;
-    return this.httpGet(`characters/'${characterId}'/stories?limit=1&offset=${offset}&`).map(function (response) {
+    return this.httpGet(`characters/${characterId}/stories?limit=1&offset=${offset}&`).map(function (response) {
       const responseData = (<any>response).data;
       if (responseData.count > 0) {// if found a story
         const storyData = responseData.results[0];
@@ -32,7 +32,7 @@ export class MarvelService {
     });
   }
 
-  getStoryCharacters(storyId: string): Observable<ICharacter[]> {
+  getStoryCharacters(storyId: number): Observable<ICharacter[]> {
     const charactersData = this.httpGet(`stories/${storyId}/characters?`);
     return charactersData.map(response => this.parseCharacters(response));
   }

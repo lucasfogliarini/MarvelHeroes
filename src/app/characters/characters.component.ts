@@ -14,8 +14,10 @@ export class CharactersComponent implements OnInit {
 
   ngOnInit() {
    const self = this;
+   // toggleLoader(true);
    this._productService.getCharacters().subscribe(function(characters) {
       self.characters = characters;
+      // toggleLoader(false);
    });
   }
 }
