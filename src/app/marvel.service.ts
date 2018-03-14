@@ -2,13 +2,35 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ICharacter } from './icharacter';
-import 'rxjs/add/operator/map';
+import { IStory } from './istory';
+import 'rxjs/add/operator/map';
+
 
 @Injectable()
 export class MarvelService {
   private readonly _apiUrl = 'https://gateway.marvel.com/v1/public/';
 
   constructor(private _http: HttpClient) { }
+
+  getRandomStory(characterId, maxRandom): Observable<IStory> {
+    const offset = this.getRandomInt(maxRandom || 100);
+    const self = this;
+    return this.httpGet(`characters/'${characterId}'/stories?limit=1&offset=${offset}&`).map(function (response) {
+      const responseData = (<any>response).data;
+      if (responseData.count > 0) {// if found a story
+        const storyData = responseData.results[0];
+        const story: IStory = {
+          id: storyData.id,
+          title: storyData.title,
+          description: storyData.description,
+          attributionText: responseData.attributionText
+        };
+        return story;
+      } else if (responseData.total > 0) {// if not found a story, but can found one
+        // return self.getRandomStory(characterId, responseData.total - 1);
+      }
+    });
+  }
 
   getStoryCharacters(storyId: string): Observable<ICharacter[]> {
     const charactersData = this.httpGet(`stories/${storyId}/characters?`);
